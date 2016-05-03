@@ -12,8 +12,8 @@ class PromiseQueue implements PromiseQueueInterface
      */
     public function addAll(array $promises)
     {
-        array_walk($promises, function (AbstractPromise $p) {
-            $this->add($p);
+        array_walk($promises, function (AbstractPromise $promise) {
+            $this->add($promise);
         });
     }
 
@@ -29,8 +29,7 @@ class PromiseQueue implements PromiseQueueInterface
      */
     public function take($amount)
     {
-        $i = 0;
-        while (++$i <= $amount && $item = $this->takeOne()) {
+        for ($i=0; $i < $amount && $item = $this->takeOne(); $i++) {
             if (is_null($item)) break;
             yield $item;
         }
